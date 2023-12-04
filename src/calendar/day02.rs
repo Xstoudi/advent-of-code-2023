@@ -52,6 +52,10 @@ impl Day02 {
 }
 
 impl Solver for Day02 {
+    fn day(&self) -> usize {
+        2
+    }
+
     fn name(&self) -> String {
         String::from("Cube Conundrum")
     }

@@ -8,6 +8,10 @@ impl Day04 {
 }
 
 impl Solver for Day04 {
+    fn day(&self) -> usize {
+        4
+    }
+
     fn name(&self) -> String {
         String::from("Scratchcards")
     }

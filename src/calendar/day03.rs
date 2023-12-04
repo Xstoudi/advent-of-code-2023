@@ -90,6 +90,10 @@ impl Day03 {
 }
 
 impl Solver for Day03 {
+    fn day(&self) -> usize {
+        3
+    }
+
     fn name(&self) -> String {
         String::from("Gear Ratios")
     }

@@ -2,6 +2,10 @@ use crate::traits::solver::Solver;
 pub struct Day01;
 
 impl Solver for Day01 {
+    fn day(&self) -> usize {
+        1
+    }
+
     fn name(&self) -> String {
         String::from("Trebuchet?!")
     }
