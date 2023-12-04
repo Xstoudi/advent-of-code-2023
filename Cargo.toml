@@ -16,9 +16,13 @@ name = "aoc_2023"
 path = "src/lib.rs"
 
 [[bin]]
-name = "runner"
-path = "bin/runner.rs"
+name = "run-all"
+path = "bin/run-all.rs"
 
 [[bin]]
 name = "benchmark"
 path = "bin/benchmark.rs"
+
+[[bin]]
+name = "run-last"
+path = "bin/run-last.rs"
