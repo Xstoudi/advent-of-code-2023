@@ -10,6 +10,8 @@ enum-map = "2.7.3"
 itertools = "0.12.0"
 colored = "2.0.4"
 tabled = { version = "*", features = ["color"] }
+regex = "1.10.2"
+lazy_static = { version = "1.4.0", features = [] }
 
 [lib]
 name = "aoc_2023"
