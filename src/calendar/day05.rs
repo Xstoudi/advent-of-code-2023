@@ -100,7 +100,8 @@ impl Solver for Day05 {
                     .skip(1)
                     .map(|seed_id| seed_id.parse::<u64>().unwrap());
 
-                while let seed_start = seed_intermediate.next() {
+                loop {
+                    let seed_start = seed_intermediate.next();
                     match seed_start {
                         None => break,
                         Some(seed_start) => {

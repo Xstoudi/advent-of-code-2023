@@ -1,5 +1,4 @@
-use std::ops::Mul;
-use itertools::{Itertools, izip};
+use itertools::Itertools;
 use crate::traits::solver::Solver;
 
 pub struct Day06;
@@ -21,14 +20,13 @@ impl Day06 {
             .iter()
             .map(|(time, record)| {
                 (0..*time)
-                    .map(|time_charging| {
+                    .filter_map(|time_charging| {
                         let remaining_time = time - time_charging;
                         let distance = time_charging * remaining_time;
-                        (distance, time_charging)
+                        if distance > *record { Some(time_charging) } else { None }
                     })
-                    .filter(|(distance, time_charging)| distance > &record)
                     .take(1)
-                    .map(|(distance, time_charging)| time - (time_charging * 2) + 1)
+                    .map(|time_charging| time - (time_charging * 2) + 1)
                     .last()
                     .unwrap_or(0)
             })
