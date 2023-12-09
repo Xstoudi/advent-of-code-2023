@@ -1,5 +1,3 @@
-use std::ops::Mul;
-use itertools::Itertools;
 use crate::traits::solver::Solver;
 
 pub struct DayXX;
@@ -17,11 +15,11 @@ impl Solver for DayXX {
         String::from("Gear Ratios")
     }
 
-    fn solve_first(&self) -> f64 {
+    fn solve_first(&self) -> u128 {
         0.0
     }
 
-    fn solve_second(&self) -> f64 {
+    fn solve_second(&self) -> u128 {
         0.0
     }
 

@@ -60,7 +60,7 @@ impl Solver for Day02 {
         String::from("Cube Conundrum")
     }
 
-    fn solve_first(&self) -> f64 {
+    fn solve_first(&self) -> u128 {
         self.get_games(self.input_first())
             .iter()
             .filter(|game| {
@@ -73,10 +73,10 @@ impl Solver for Day02 {
                 })
             })
             .map(|game| game.id)
-            .sum::<i32>() as f64
+            .sum::<i32>() as u128
     }
 
-    fn solve_second(&self) -> f64 {
+    fn solve_second(&self) -> u128 {
         self.get_games(self.input_second())
             .iter()
             .map(|game| {
@@ -97,7 +97,7 @@ impl Solver for Day02 {
             .map(|map| {
                 map.values().product::<i32>()
             })
-            .sum::<i32>() as f64
+            .sum::<i32>() as u128
     }
 
     fn input_first(&self) -> String {

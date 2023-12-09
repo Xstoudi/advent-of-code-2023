@@ -16,16 +16,16 @@ impl Solver for Day04 {
         String::from("Scratchcards")
     }
 
-    fn solve_first(&self) -> f64 {
+    fn solve_first(&self) -> u128 {
         self.input_first()
             .lines()
             .filter(|line| !line.is_empty())
             .map(|line| ScratchCard::from(line.to_string()))
             .map(ScratchCard::point_value)
-            .sum::<u32>() as f64
+            .sum::<u32>() as u128
     }
 
-    fn solve_second(&self) -> f64 {
+    fn solve_second(&self) -> u128 {
         let mut cards = HashMap::new();
         let initial_cards = self.input_second()
             .lines()
@@ -51,7 +51,7 @@ impl Solver for Day04 {
         cards
             .iter()
             .map(|(_, count)| *count)
-            .sum::<u32>() as f64
+            .sum::<u32>() as u128
     }
 
     fn input_first(&self) -> String {

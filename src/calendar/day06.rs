@@ -15,7 +15,7 @@ impl Day06 {
             })
             .collect::<Vec<(u64, u64)>>()
     }
-    fn compute_for_pairs(&self, pairs: Vec<(u64, u64)>) -> f64 {
+    fn compute_for_pairs(&self, pairs: Vec<(u64, u64)>) -> u128 {
         pairs
             .iter()
             .map(|(time, record)| {
@@ -30,7 +30,7 @@ impl Day06 {
                     .last()
                     .unwrap_or(0)
             })
-            .product::<u64>() as f64
+            .product::<u64>() as u128
     }
 }
 
@@ -43,7 +43,7 @@ impl Solver for Day06 {
         String::from("Wait For It")
     }
 
-    fn solve_first(&self) -> f64 {
+    fn solve_first(&self) -> u128 {
         let parsed = self.input_first()
             .lines()
             .filter(|line| !line.is_empty())
@@ -65,7 +65,7 @@ impl Solver for Day06 {
         self.compute_for_pairs(pairs)
     }
 
-    fn solve_second(&self) -> f64 {
+    fn solve_second(&self) -> u128 {
         let parsed = self.input_second()
             .lines()
             .filter(|line| !line.is_empty())

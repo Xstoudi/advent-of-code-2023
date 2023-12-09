@@ -84,7 +84,7 @@ fn main() {
                         (nanos, nanos * 1000, "ns")
                     };
 
-                    let time = major as f64 + (minor - major * 1000) as f64 / 1000.0;
+                    let time = major as u128 + (minor - major * 1000) as u128 / 1000.0;
                     let text = format!("{:.2} {}", time, t);
 
                     return if elapsed.as_secs() > 1 { text.red().to_string() } else { text.green().to_string() };

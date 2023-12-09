@@ -4,6 +4,8 @@ use crate::calendar::day03::Day03;
 use crate::calendar::day04::Day04;
 use crate::calendar::day05::Day05;
 use crate::calendar::day06::Day06;
+use crate::calendar::day07::Day07;
+use crate::calendar::day08::Day08;
 use crate::traits::solver::Solver;
 
 pub fn get() -> Vec<&'static dyn Solver> {
@@ -13,7 +15,9 @@ pub fn get() -> Vec<&'static dyn Solver> {
         &Day03,
         &Day04,
         &Day05,
-        &Day06
+        &Day06,
+        &Day07,
+        &Day08,
     ]
 }
 

@@ -10,7 +10,7 @@ impl Solver for Day01 {
         String::from("Trebuchet?!")
     }
 
-    fn solve_first(&self) -> f64 {
+    fn solve_first(&self) -> u128 {
         self.input_first()
             .lines()
             .filter(|line| !line.is_empty())
@@ -28,10 +28,10 @@ impl Solver for Day01 {
                     + right.parse::<i32>().expect("Right is not a digit");
                 result
             })
-            .sum::<i32>() as f64
+            .sum::<i32>() as u128
     }
 
-    fn solve_second(&self) -> f64 {
+    fn solve_second(&self) -> u128 {
         let word_digit_map = [
             ("one", "one1one"),
             ("two", "two2two"),
@@ -68,7 +68,7 @@ impl Solver for Day01 {
                     + right.parse::<i32>().expect("Right is not a digit");
                 result
             })
-            .sum::<i32>() as f64
+            .sum::<i32>() as u128
     }
 
     fn input_first(&self) -> String {

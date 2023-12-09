@@ -16,8 +16,8 @@ pub trait Solver: Sync {
             Result::new(self.day(), self.name(), true, second_result.0, second_result.1),
         ]
     }
-    fn solve_first(&self) -> f64;
-    fn solve_second(&self) -> f64;
+    fn solve_first(&self) -> u128;
+    fn solve_second(&self) -> u128;
 
     fn input_first(&self) -> String;
     fn input_second(&self) -> String;

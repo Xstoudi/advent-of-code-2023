@@ -98,7 +98,7 @@ impl Solver for Day03 {
         String::from("Gear Ratios")
     }
 
-    fn solve_first(&self) -> f64 {
+    fn solve_first(&self) -> u128 {
         let controls = self.input_first()
             .lines()
             .flat_map(|line| line.chars())
@@ -145,10 +145,10 @@ impl Solver for Day03 {
             }
         }
 
-        numbers.iter().sum::<i32>() as f64
+        numbers.iter().sum::<i32>() as u128
     }
 
-    fn solve_second(&self) -> f64 {
+    fn solve_second(&self) -> u128 {
         let lines = self.input_second()
             .lines()
             .map(|line| line.trim())
@@ -180,7 +180,7 @@ impl Solver for Day03 {
             }
         }
 
-        sum as f64
+        sum as u128
     }
 
     fn input_first(&self) -> String {

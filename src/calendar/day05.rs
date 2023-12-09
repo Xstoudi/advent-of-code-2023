@@ -17,7 +17,7 @@ impl Solver for Day05 {
         String::from("If You Give A Seed A Fertilizer")
     }
 
-    fn solve_first(&self) -> f64 {
+    fn solve_first(&self) -> u128 {
         lazy_static! {
             static ref MAPPING_REGEX: Regex = Regex::new(r"(?P<source>\w*)-to-(?P<destination>\w*) map:\n(?P<values>((\d+) (\d+) (\d+)\n?)+)").unwrap();
             static ref VALUES_REGEX: Regex = Regex::new(r"(?P<destination_range_start>\d+) (?P<source_range_start>\d+) (?P<range_size>\d+)").unwrap();
@@ -73,10 +73,10 @@ impl Solver for Day05 {
                 pipeline.exec(*seed)
             )
             .min()
-            .expect("No min") as f64
+            .expect("No min") as u128
     }
 
-    fn solve_second(&self) -> f64 {
+    fn solve_second(&self) -> u128 {
         lazy_static! {
             static ref MAPPING_REGEX: Regex = Regex::new(r"(?P<source>\w*)-to-(?P<destination>\w*) map:\n(?P<values>((\d+) (\d+) (\d+)\n?)+)").unwrap();
             static ref VALUES_REGEX: Regex = Regex::new(r"(?P<destination_range_start>\d+) (?P<source_range_start>\d+) (?P<range_size>\d+)").unwrap();
@@ -144,7 +144,7 @@ impl Solver for Day05 {
                     .count() != 0
             })
             .expect("No last")
-            .0 - 1) as f64
+            .0 - 1) as u128
     }
 
     fn input_first(&self) -> String {
