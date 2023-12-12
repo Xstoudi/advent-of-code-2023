@@ -1,17 +1,9 @@
-use std::collections::HashMap;
+use hashbrown::HashMap;
 use crate::traits::solver::Solver;
 
 pub struct Day12;
 
 impl Day12 {
-    fn char_to_spring_status(c: char) -> SpringStatus {
-        match c {
-            '.' => SpringStatus::Operational,
-            '#' => SpringStatus::Damaged,
-            '?' => SpringStatus::Unknown,
-            _ => panic!("Invalid spring status")
-        }
-    }
 }
 
 impl Solver for Day12 {
@@ -24,7 +16,9 @@ impl Solver for Day12 {
     }
 
     fn solve_first(&self) -> u128 {
-        let spring_sequences = self.input_first()
+        let mut hot_spring = HotSpring::new();
+
+        self.input_first()
             .lines()
             .filter(|line| !line.is_empty())
             .map(|line| {
@@ -32,9 +26,7 @@ impl Solver for Day12 {
                 let status = parts
                     .next()
                     .unwrap()
-                    .chars()
-                    .map(|c| Day12::char_to_spring_status(c))
-                    .collect::<Vec<SpringStatus>>();
+                    .to_string();
                 let continuous_damaged = parts
                     .next()
                     .unwrap()
@@ -42,59 +34,42 @@ impl Solver for Day12 {
                     .map(|part| part.parse::<usize>().unwrap())
                     .collect::<Vec<usize>>();
 
-                SpringSequence::new(status, continuous_damaged)
+                (status, continuous_damaged)
             })
-            .collect::<Vec<SpringSequence>>();
-
-        let cached_permutations = HashMap::new();
-
-        let result = spring_sequences
-            .iter()
-            .map(|spring_sequence| {
-                let unknown_indices = spring_sequence.status
-                    .iter()
-                    .enumerate()
-                    .filter(|(_, status)| **status == SpringStatus::Unknown)
-                    .map(|(index, _)| index)
-                    .collect::<Vec<usize>>();
-
-                let max_permutation_value = u32::pow(2, unknown_indices.len() as u32);
-
-                let permutations = (0..max_permutation_value)
-                    .map(|permutation_value| {
-                        let defined_status = (0..unknown_indices.len())
-                            .map(|index| {
-                                let is_set = (permutation_value >> index) & 1 == 1;
-                                if is_set {
-                                    SpringStatus::Damaged
-                                } else {
-                                    SpringStatus::Operational
-                                }
-                            })
-                            .collect::<Vec<SpringStatus>>();
-
-                        let mut status = spring_sequence.status.clone();
-                        for (index, unknown_index) in unknown_indices.iter().enumerate() {
-                            status[*unknown_index] = defined_status[index].clone();
-                        }
-                        spring_sequence.clone_with_status(status)
-                    });
-
-                permutations
-                    .filter(|spring_sequence| spring_sequence.is_valid())
-                    .count()
-            })
-            .sum::<usize>();
-
-        println!("Result: {}", result);
-
-        println!("Hello, world!");
-
-        result as u128
+            .map(|x| hot_spring.count_permutations(x, 0))
+            .sum()
     }
 
     fn solve_second(&self) -> u128 {
-        0
+        let mut hot_spring = HotSpring::new();
+
+        self.input_second()
+            .lines()
+            .filter(|line| !line.is_empty())
+            .map(|line| {
+                let mut parts = line.split(" ");
+                let status = parts
+                    .next()
+                    .unwrap()
+                    .to_string();
+
+                let unfolded_status = (0..5)
+                    .map(|_| status.clone())
+                    .collect::<Vec<String>>()
+                    .join("?");
+
+                let continuous_damaged = parts
+                    .next()
+                    .unwrap()
+                    .split(",")
+                    .map(|part| part.parse::<usize>().unwrap())
+                    .collect::<Vec<usize>>()
+                    .repeat(5);
+
+                (unfolded_status, continuous_damaged)
+            })
+            .map(|x| hot_spring.count_permutations(x, 0))
+            .sum()
     }
 
     fn input_first(&self) -> String {
@@ -106,67 +81,76 @@ impl Solver for Day12 {
     }
 }
 
-struct SpringSequence {
-    status: Vec<SpringStatus>,
-    continuous_damaged: Vec<usize>,
+struct HotSpring {
+    memoization: HashMap<(String, Vec<usize>), u128>,
 }
 
-impl SpringSequence {
-    fn new(status: Vec<SpringStatus>, continuous_damaged: Vec<usize>) -> SpringSequence {
-        SpringSequence {
-            status,
-            continuous_damaged,
+impl HotSpring {
+    fn new() -> HotSpring {
+        HotSpring {
+            memoization: HashMap::new(),
         }
     }
 
-    fn is_valid(&self) -> bool {
-        let mut current_continuous_damaged = 0;
-        let mut is_in_continuous_damaged = false;
+    fn count_permutations(&mut self, (condition, continuous_damaged): (String, Vec<usize>), tab_size: u32) -> u128 {
+        let input = (condition.clone(), continuous_damaged.clone());
+        if let Some(count) = self.memoization.get(&(input)) {
+            return *count;
+        }
 
-        let mut continuous_damaged_found = Vec::new();
+        if condition.is_empty() {
+            return if continuous_damaged.is_empty() { 1 } else { 0 }
+        }
 
-        for status in &self.status {
-            match status {
-                SpringStatus::Operational => {
-                    if is_in_continuous_damaged {
-                        continuous_damaged_found.push(current_continuous_damaged);
-                        current_continuous_damaged = 0;
-                        is_in_continuous_damaged = false;
-                    }
-                },
-                SpringStatus::Damaged => {
-                    is_in_continuous_damaged = true;
-                    current_continuous_damaged += 1;
-                },
-                SpringStatus::Unknown => {
-                    panic!("Cannot check validity on undetermined spring status")
+        let first_status = condition.chars().take(1).last().unwrap();
+
+        let permutations = match first_status {
+            '.' => {
+                self.count_permutations((condition[1..].to_string(), continuous_damaged), tab_size + 1)
+            },
+            '?' => {
+                self.count_permutations((
+                    String::from('.') + &condition[1..],
+                    continuous_damaged.clone()
+                ), tab_size + 1) +
+                self.count_permutations((
+                    String::from('#') + &condition[1..],
+                    continuous_damaged
+                ), tab_size + 1)
+            },
+            '#' => {
+                if continuous_damaged.is_empty() {
+                    return 0;
                 }
+
+                let damaged_count = continuous_damaged.first().unwrap();
+                if damaged_count <= &condition.len() && condition.chars().take(*damaged_count).all(|c| c == '#' || c == '?') {
+                    let new_continous_damaged = &continuous_damaged[1..];
+                    return if *damaged_count == condition.len() {
+                        if new_continous_damaged.is_empty() { 1 } else { 0 }
+                    } else if condition.chars().nth(*damaged_count).unwrap() == '.' {
+                        self.count_permutations((
+                            condition[*damaged_count + 1..].to_string(),
+                            new_continous_damaged.to_vec()
+                        ), tab_size + 1)
+                    } else if condition.chars().nth(*damaged_count).unwrap() == '?' {
+                        self.count_permutations((
+                            String::from('.') + &condition[*damaged_count + 1..],
+                            new_continous_damaged.to_vec()
+                        ), tab_size + 1)
+                    } else {
+                        0
+                    }
+                }
+
+                0
             }
-        }
+            _ => panic!("Cannot count permutations on undetermined spring status")
+        };
 
-        if is_in_continuous_damaged {
-            continuous_damaged_found.push(current_continuous_damaged);
-        }
-
-
-        let is_valid = self.continuous_damaged == continuous_damaged_found;
-
-
-        is_valid
-    }
-
-    fn clone_with_status(&self, status: Vec<SpringStatus>) -> SpringSequence {
-        SpringSequence {
-            status,
-            continuous_damaged: self.continuous_damaged.clone(),
-        }
+        self.memoization.insert(input, permutations);
+        permutations
     }
 
 }
 
-#[derive(Debug, PartialEq, Clone)]
-enum SpringStatus {
-    Operational,
-    Damaged,
-    Unknown
-}
