@@ -1,8 +1,5 @@
 use std::fmt::Display;
-use lazy_static::lazy_static;
-use serial_int::SerialGenerator;
 use crate::traits::solver::Solver;
-use std::sync::Mutex;
 
 pub struct Day11;
 
@@ -126,10 +123,6 @@ impl Solver for Day11 {
     fn input_second(&self) -> String {
         include_str!("../resource/day11b.txt").to_string()
     }
-}
-
-lazy_static! {
-    static ref ID_GEN: Mutex<SerialGenerator<u32>> = Mutex::new(SerialGenerator::new());
 }
 
 #[derive(Clone, PartialEq, Debug)]
