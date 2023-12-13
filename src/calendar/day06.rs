@@ -87,10 +87,10 @@ impl Solver for Day06 {
     }
 
     fn input_first(&self) -> String {
-        include_str!("../resource/day06a.txt").to_string()
+        include_str!("../resource/day06.txt").to_string()
     }
 
     fn input_second(&self) -> String {
-        include_str!("../resource/day06b.txt").to_string()
+        include_str!("../resource/day06.txt").to_string()
     }
 }

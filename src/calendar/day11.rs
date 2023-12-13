@@ -117,11 +117,11 @@ impl Solver for Day11 {
     }
 
     fn input_first(&self) -> String {
-        include_str!("../resource/day11a.txt").to_string()
+        include_str!("../resource/day11.txt").to_string()
     }
 
     fn input_second(&self) -> String {
-        include_str!("../resource/day11b.txt").to_string()
+        include_str!("../resource/day11.txt").to_string()
     }
 }
 
