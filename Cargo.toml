@@ -14,6 +14,7 @@ regex = "1.10.2"
 lazy_static = { version = "1.4.0", features = [] }
 strum_macros = "0.25.3"
 hashbrown = "0.14"
+grid = "0.12.0"
 
 [lib]
 name = "aoc_2023"
