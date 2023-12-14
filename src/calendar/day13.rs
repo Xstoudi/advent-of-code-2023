@@ -142,6 +142,7 @@ impl Solver for Day13 {
         sum as u128
     }
 
+    // 96444 too low
     fn solve_second(&self) -> u128 {
         let grids = self.input_second()
             .replace("\r\n", "\n")
