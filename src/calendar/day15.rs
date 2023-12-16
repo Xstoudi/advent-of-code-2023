@@ -4,7 +4,7 @@ use crate::traits::solver::Solver;
 pub struct Day15;
 
 impl Day15 {
- fn hash(input: String) -> u32 {
+    fn hash(input: String) -> u32 {
         input
             .chars()
             .fold(0, |mut acc, c| {
@@ -24,7 +24,6 @@ impl Solver for Day15 {
     fn name(&self) -> String {
         String::from("Lens Library")
     }
-
 
     fn solve_first(&self) -> u128 {
         self.input_first()
