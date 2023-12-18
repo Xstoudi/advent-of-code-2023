@@ -29,7 +29,7 @@ fn main() {
         .flatten_iter()
         .collect::<Vec<_>>()
         .iter()
-        .into_group_map_by(|r| format!("{}{}{}", r.day, r.name.clone(), r.part))
+        .into_group_map_by(|r| format!("{:0>2}{}{}", r.day, r.name.clone(), r.part))
         .into_iter()
         .sorted_by_key(|(name, _)| name.clone())
         .map(|x| BenchResult::from(x))
@@ -84,7 +84,7 @@ fn main() {
                         (nanos, nanos * 1000, "ns")
                     };
 
-                    let time = major as u128 + (minor - major * 1000) as u128 / 1000.0;
+                    let time = major + (minor - major * 1000) / 1000;
                     let text = format!("{:.2} {}", time, t);
 
                     return if elapsed.as_secs() > 1 { text.red().to_string() } else { text.green().to_string() };
